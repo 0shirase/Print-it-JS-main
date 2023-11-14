@@ -54,3 +54,30 @@ right_arrow.addEventListener("click", function() {
 
   leftArrow.addEventListener('click', changeImageLeft);
   rightArrow.addEventListener('click', changeImageRight);
+
+  
+  const dots = document.querySelectorAll('.dot');
+  
+  function changeImageLeft() {
+	currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+	bannerImg.src = images[currentImageIndex];
+	updateDots();
+  }
+  
+  function changeImageRight() {
+	currentImageIndex = (currentImageIndex + 1) % images.length;
+	bannerImg.src = images[currentImageIndex];
+	updateDots();
+  }
+  
+  function updateDots() {
+	dots.forEach(dot => {
+	  dot.classList.remove('dot_selected');
+	});
+	dots[currentImageIndex].classList.add('dot_selected');
+  }
+  
+  leftArrow.addEventListener('click', changeImageLeft);
+  rightArrow.addEventListener('click', changeImageRight);
+  
+  updateDots();
