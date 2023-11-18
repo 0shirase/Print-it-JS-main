@@ -1,83 +1,100 @@
 const slides = [
-	{
-		"image":"slide1.jpg",
-		"tagLine":"Impressions tous formats <span>en boutique et en ligne</span>"
-	},
-	{
-		"image":"slide2.jpg",
-		"tagLine":"Tirages haute définition grand format <span>pour vos bureaux et events</span>"
-	},
-	{
-		"image":"slide3.jpg",
-		"tagLine":"Grand choix de couleurs <span>de CMJN aux pantones</span>"
-	},
-	{
-		"image":"slide4.png",
-		"tagLine":"Autocollants <span>avec découpe laser sur mesure</span>"
-	}
+  {
+    "image": "slide1.jpg",
+    "tagLine": "Impressions tous formats <span>en boutique et en ligne</span>"
+  },
+  {
+    "image": "slide2.jpg",
+    "tagLine": "Tirages haute définition grand format <span>pour vos bureaux et events</span>"
+  },
+  {
+    "image": "slide3.jpg",
+    "tagLine": "Grand choix de couleurs <span>de CMJN aux pantones</span>"
+  },
+  {
+    "image": "slide4.png",
+    "tagLine": "Autocollants <span>avec découpe laser sur mesure</span>"
+  },
+  
 ]
 
-let left_arrow = document.getElementById("left_arrow")
-	
-left_arrow.addEventListener("click", function() {
-	console.log("j'ai cliqué sur la flêche  gauche")
+const leftArrow = document.getElementById('left_arrow');
+const rightArrow = document.getElementById('right_arrow');
+const bannerImg = document.querySelector('.banner-img');
+const tagLine = document.querySelector('#banner p');
+const baseUrl = "./assets/images/slideshow/";
+
+
+const conteneurDots = document.querySelector('.dots');
+
+let dots;
+
+
+let currentImageIndex = 0;
+
+
+
+/*leftArrow.addEventListener("click", function() {
+  console.log("j'ai cliqué sur la flêche  gauche")
 })
 
-let right_arrow = document.getElementById("right_arrow")
+
 	
-right_arrow.addEventListener("click", function() {
-	console.log(" j'ai cliqué sur la flêche droite")
-})
+rightArrow.addEventListener("click", function() {
+  console.log(" j'ai cliqué sur la flêche droite")
+})*/
 
-  const leftArrow = document.getElementById('left_arrow');
-  const rightArrow = document.getElementById('right_arrow');
-  const bannerImg = document.querySelector('.banner-img');
 
-  
-  const images = [
-    './assets/images/slideshow/slide1.jpg',
-    './assets/images/slideshow/slide2.jpg', 
-    './assets/images/slideshow/slide3.jpg',
-	'./assets/images/slideshow/slide4.png'
-  ];
-  let currentImageIndex = 0;
+function main(){
+  createDots();
+  leftArrow.addEventListener('click', prevSlide);
+  rightArrow.addEventListener('click', nextSlide);
 
-  function changeImageLeft() {
-    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-    bannerImg.src = images[currentImageIndex];
-  }
+}
+main();
 
-  function changeImageRight() {
-    currentImageIndex = (currentImageIndex + 1) % images.length;
-    bannerImg.src = images[currentImageIndex];
-  }
 
-  leftArrow.addEventListener('click', changeImageLeft);
-  rightArrow.addEventListener('click', changeImageRight);
 
-  
-  const dots = document.querySelectorAll('.dot');
-  
-  function changeImageLeft() {
-	currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-	bannerImg.src = images[currentImageIndex];
-	updateDots();
-  }
-  
-  function changeImageRight() {
-	currentImageIndex = (currentImageIndex + 1) % images.length;
-	bannerImg.src = images[currentImageIndex];
-	updateDots();
-  }
-  
-  function updateDots() {
-	dots.forEach(dot => {
-	  dot.classList.remove('dot_selected');
-	});
-	dots[currentImageIndex].classList.add('dot_selected');
-  }
-  
-  leftArrow.addEventListener('click', changeImageLeft);
-  rightArrow.addEventListener('click', changeImageRight);
-  
+function createDots(){
+
+	for(i=0; i < slides.length ;i++){
+		const dot = document.createElement("div");
+		dot.classList.add("dot");
+		if(i == currentImageIndex)
+		{
+			dot.classList.add("dot_selected");
+		}
+		conteneurDots.appendChild(dot);		
+	}
+	dots = document.querySelectorAll(".dot");
+
+}
+
+function prevSlide() {
+  currentImageIndex = (currentImageIndex - 1 + slides.length) % slides.length;
+  updateContentSlide();
   updateDots();
+}
+
+function nextSlide() {
+  currentImageIndex = (currentImageIndex + 1) % slides.length;
+  updateContentSlide();
+  updateDots();
+}
+
+
+function updateContentSlide(){
+  bannerImg.src = baseUrl + slides[currentImageIndex].image;
+  tagLine.innerHTML = slides[currentImageIndex].tagLine;
+}
+
+
+function updateDots() {
+  dots.forEach(dot => {
+    dot.classList.remove('dot_selected');
+  });
+  dots[currentImageIndex].classList.add('dot_selected');
+}
+
+//leftArrow.addEventListener('click', changeImageLeft);
+//rightArrow.addEventListener('click', changeImageRight);
